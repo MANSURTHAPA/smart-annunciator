@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect
 import json
 import threading
+
 from display import start_display
+from monitor import monitor_connection
 from ntp_sync import sync_time
 
 app = Flask(__name__)
@@ -26,6 +28,14 @@ def dashboard():
     return render_template("dashboard.html", config=config)
 
 if __name__ == "__main__":
-    threading.Thread(target=sync_time).start()
-    threading.Thread(target=start_display).start()
-    app.run(port=5000)
+    # Start display client
+    threading.Thread(target=start_display, daemon=True).start()
+
+    # Start monitor
+    threading.Thread(target=monitor_connection, daemon=True).start()
+
+    # Start NTP sync
+    threading.Thread(target=sync_time, daemon=True).start()
+
+    # Run Flask
+    app.run(debug=True)

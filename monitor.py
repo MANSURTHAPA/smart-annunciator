@@ -1,6 +1,6 @@
 import requests
 import time
-import json
+from display import window, load_config
 
 def check_connection():
     try:
@@ -9,9 +9,11 @@ def check_connection():
     except:
         return False
 
-def monitor_connection(refresh_callback):
+def monitor_connection():
     while True:
         if not check_connection():
-            print("Connection lost. Refreshing...")
-            refresh_callback()
+            print("Connection lost — refreshing display")
+            if window:
+                config = load_config()
+                window.load_url(config["display_url"])
         time.sleep(10)
