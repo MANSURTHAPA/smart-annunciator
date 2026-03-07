@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Dashboard</title>
+    <title>Smart Annunciator Admin</title>
 </head>
 <body>
     <h2>Annunciator Configuration</h2>
+
     <form method="POST">
         <label>Display URL:</label>
         <input type="text" name="url" value="{{ config.display_url }}" size="50"/>
         <button type="submit">Update</button>
     </form>
+
+    <br>
+    <a href="/logout">Logout</a>
 </body>
 </html>
